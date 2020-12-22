@@ -21,5 +21,8 @@ Route::get('/', [App\Http\Controllers\PendudukController::class, 'index']);
 Route::get('penduduk/create/{id}', [App\Http\Controllers\KartuKeluargaController::class, 'create']);
 Route::resource('penduduk', \App\Http\Controllers\PendudukController::class);
 Route::resource('keluarga', \App\Http\Controllers\KartuKeluargaController::class);
-Route::get('/keluarga/{{$keluarga->id}}/tambah', [App\Http\Controllers\KartuKeluargaController::class, 'create'])->name('keluarga.tambah');
+Route::get('/keluarga/{{$keluarga->id}}/tambah', [App\Http\Controllers\KartuKeluargaController::class, 'create'])->name('keluarga.tambah');\
+Route::post('keluarga/edit/{$keluarga->id}', [App\Http\Controllers\KartuKeluargaController::class, 'update']);
+Route::post('keluarga/{{$penduduks->id}}/edit', [App\Http\Controllers\KartuKeluargaController::class, 'update']);
+Route::get('/keluarga/post_delete/{id}',[KartuKeluargaController::class,'delete']);
 

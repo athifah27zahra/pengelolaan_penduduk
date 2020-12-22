@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Penduduk;
+use App\Models\Jorong;
 use App\Models\KartuKeluarga;
 
 
@@ -11,16 +12,28 @@ class KartuKeluargaController extends Controller
 {
     public function index(){
         $keluarga = KartuKeluarga::withCount('penduduks')->paginate(10);
-        return view('keluarga.index', compact('keluarga'));
+        $jorong = Jorong::get();
+        return view('keluarga.index', compact('keluarga', 'jorong'));
     }
     public function show(KartuKeluarga $keluarga){
         $penduduks = Penduduk::where('keluarga_id', $keluarga->id)->get();
-        return view('keluarga.show', compact('keluarga', 'penduduks'));
+        return view('keluarga.show', compact('penduduks'));
     }
 
-    public function update(){
-        $updatee = DB::table('penduduk');
-        return view('keluarga.create', compact('updatee'));
+    public function edit($id){
+        $keluarga= KartuKeluarga::find($id);
+        $jorong = Jorong::get();
+        return view('keluarga.edit', compact('keluarga','jorong'));
+    }
+
+    public function update(Request $request){
+        $updatee = KartuKeluarga::find($request->id);
+        $updatee->no=$request->no;
+        $updatee->jorong_id = $request->jorong;
+        $updatee->tanggal_pencatatan = $request->tanggal_pencatatan;
+        
+        $updatee->save();
+        return back('keluarga.index');
     }
 
     public function create(KartuKeluarga $keluarga){
@@ -60,5 +73,11 @@ class KartuKeluargaController extends Controller
         session()->flash('flash_success', 'Berhasil menambahkan Progress!');
 
         return view('backend.ta.index');
+    }
+
+    public function delete($id){
+        KartuKeluarga::where('id',$id)->delete();
+        return  back()->with('post_delete','data berhasil dihapus');
+        
     }
 }

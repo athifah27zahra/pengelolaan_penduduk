@@ -67,7 +67,7 @@
                             </div>
 
                     <div class="col-lg-12">
-                        <a href="/keluarga/{{$keluarga->id}}/tambah" class = "btn btn-primary btn-sm">Tambah</a>
+                        <a href="/keluarga/{{$penduduks->id}}/tambah" class = "btn btn-primary btn-sm">Tambah</a>
                                     
                     <div class="card">
                         <div class="card-header"></div>
